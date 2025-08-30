@@ -8,7 +8,7 @@ const studentSchema = new mongoose.Schema({
     role:{type: String, required: true, default: 'user'},
     level:{type: Number, required: true},
     semester:{type: String, required: true},
-    faculty:{typre: String, required:true}
+    faculty:{type: String, required: true}
 })
 
-module.exports = mongoose.model('Student', studentSchema);
+module.exports = mongoose.model('Student', studentSchema)
