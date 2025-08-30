@@ -10,7 +10,7 @@ async function createStudent(req, res) {
     const { name, email, password, level, course, semester, faculty } =
       req.body;
     const existingStudent = await Student.findOne({ email });
-    if (existingStudent) {
+    if (!existingStudent) {
       return res
         .status(400)
         .send({ message: "Student with email already exist" });

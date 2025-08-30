@@ -2,6 +2,7 @@
 const express = require("express");
 const Admin = require("../models/Admin.models")
 const Student = require("../models/Student.models");
+const Books = require("../models/Books.models")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -11,7 +12,7 @@ async function createAdmin(req, res) {
     const { name, email, password, courseTaken, department} =
       req.body;
     const existingAdmin = await Admin.findOne({ email });
-    if (existingAdmin) {
+    if (!existingAdmin) {
       return res
         .status(400)
         .send({ message: "Admin with email already exist" });
@@ -91,4 +92,82 @@ async function adminProfile(req, res) {
         res.status(500).send({ message: "Internal server error" });
     }
 }
-module.exports = { createAdmin, adminLogin, adminProfile };
+
+//admin getting all students
+async function getStudents(req, res) {
+    try {
+        const {userID} = req.params.id;
+        const allStudents = await Student.find();
+        const studen = await Admin.findById(userID);
+        if (!studen) {
+          return res.status(404).send({ message: "Admin not found" });
+        }
+
+        res.status(201).send({message: "Book fetched",allStudents })
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Internal server error" });
+    }
+}
+
+//deleting student
+async function deleteStudent(req, res) {
+    try {
+        const deleteID = await Student.findByIdAndDelete(req.params.id);
+        if(!deleteID){
+            res.status(404).send({message: "Studnet not found"})
+        }
+
+        const { userID } = req.params.id;
+        const studen = await Admin.findById(userID);
+        if (!studen) {
+          return res.status(404).send({ message: "Admin not found" });
+        }
+
+        res.status(201).send({message: "Studen deleted succesfully", deleteID})
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Internal server error" });
+    }
+}
+
+//get all books
+async function getBooks(req, res) {
+  try {
+    const { userID } = req.params.id;
+    const allBooks = await Books.find();
+    const studen = await Admin.findById(userID);
+    if (!studen) {
+      return res.status(404).send({ message: "Admin not found" });
+    }
+
+    res.status(201).send({ message: "Book fetched", allBooks });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Internal server error" });
+  }
+}
+
+//deleting books
+async function deleteBooks(req, res) {
+    try {
+        const deleteID = await Books.findByIdAndDelete(req.params.id);
+        if(!deleteID){
+            res.status(404).send({message: "Books not found"})
+        }
+
+        const { userID } = req.params.id;
+        const studen = await Admin.findById(userID);
+        if (!studen) {
+          return res.status(404).send({ message: "Admin not found" });
+        }
+
+        res.status(201).send({message: "Studen deleted succesfully", deleteID})
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Internal server error" });
+    }
+}
+
+module.exports = { createAdmin, adminLogin, adminProfile, getStudents, getBooks, deleteStudent, deleteBooks };
