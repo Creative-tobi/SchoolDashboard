@@ -22,7 +22,7 @@ async function createStudent(req, res) {
       email,
       password: hashedPassword,
       course,
-      level,
+      // level,
       semester,
       faculty,
     });
@@ -47,7 +47,7 @@ async function createStudent(req, res) {
         course: newStudent.course,
         faculty: newStudent.faculty,
         semester: newStudent.semester,
-        level: newStudent.level,
+        // level: newStudent.level,
       },
     });
   } catch (error) {
