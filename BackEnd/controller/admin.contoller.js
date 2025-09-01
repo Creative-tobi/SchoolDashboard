@@ -4,7 +4,7 @@ const Books = require("../models/Books.models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-// ---------------------- Register Admin ----------------------
+//Register Admin
 async function createAdmin(req, res) {
   try {
     const { name, email, password, courseTaken, department } = req.body;
@@ -52,7 +52,7 @@ async function createAdmin(req, res) {
   }
 }
 
-// ---------------------- Login Admin ----------------------
+//Login Admin 
 async function adminLogin(req, res) {
   try {
     const { email, password } = req.body;
@@ -91,8 +91,7 @@ async function adminLogin(req, res) {
     res.status(500).send({ error: "Internal server error" });
   }
 }
-
-// ---------------------- Admin Profile ----------------------
+//Admin Profile
 async function adminProfile(req, res) {
   try {
     const adminID = req.params.id;
@@ -108,7 +107,7 @@ async function adminProfile(req, res) {
   }
 }
 
-// ---------------------- Extra Features ----------------------
+// Extra Features
 async function getStudents(req, res) {
   try {
     const allStudents = await Student.find().select("-password");

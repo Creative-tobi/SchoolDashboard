@@ -34,7 +34,7 @@ const StudentRegister = () => {
         "Student register error:",
         error.response?.data || error.message
       );
-      alert(error.response?.data?.message || "Registration failed ❌");
+      alert(error.response?.data?.message || "Registration failed");
     }
   };
 
