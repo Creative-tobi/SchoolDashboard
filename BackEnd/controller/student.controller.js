@@ -1,16 +1,14 @@
-const Admin = require("../models/Admin.models");
 const Student = require("../models/Student.models");
-const Books = require("../models/Books.models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-//Register Admin
+//Register Student
 async function createStudent(req, res) {
   try {
     const { name, email, password, level, course, semester, faculty } =
       req.body;
 
-    const existingStudent = await Admin.findOne({ email });
+    const existingStudent = await Student.findOne({ email });
     if (existingStudent) {
       return res.status(400).send({ error: "Admin with email already exists" });
     }
@@ -41,7 +39,7 @@ async function createStudent(req, res) {
     res.status(201).send({
       message: "Student registered successfully",
       token,
-      admin: {
+      student: {
         id: newStudent._id,
         name: newStudent.name,
         email: newStudent.email,
@@ -86,7 +84,7 @@ async function studentLogin(req, res) {
     res.status(200).send({
       message: "Login successful",
       token,
-      admin: {
+      student: {
         id: student._id,
         name: student.name,
         email: student.email,
@@ -97,7 +95,7 @@ async function studentLogin(req, res) {
     res.status(500).send({ error: "Internal server error" });
   }
 }
-//Admin Profile
+//Student Profile
 async function studentProfile(req, res) {
   try {
     const studentID = req.params.id;
@@ -112,10 +110,6 @@ async function studentProfile(req, res) {
     res.status(500).send({ error: "Internal server error" });
   }
 }
-
-
-
-
 module.exports = {
   createStudent,
   studentLogin,
