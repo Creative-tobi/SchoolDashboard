@@ -20,13 +20,13 @@ const AdminLogin = () => {
         localStorage.setItem("adminId", res.data.user._id);
 
       alert("Admin login successful!");
-      navigate("/admin");
+      navigate("/admin/dashboard");
     } catch (error) {
       console.error(
         "Admin login error:",
         error.response?.data || error.message
       );
-      alert(error.response?.data?.message || "Login failed ❌");
+      alert(error.response?.data?.message || "Login failed");
     }
   };
 

@@ -20,13 +20,13 @@ const StudentLogin = () => {
         localStorage.setItem("studentId", res.data.user._id);
 
       alert("Student login successful!");
-      navigate("/student");
+      navigate("/student/dashboard");
     } catch (error) {
       console.error(
         "Student login error:",
         error.response?.data || error.message
       );
-      alert(error.response?.data?.message || "Login failed ❌");
+      alert(error.response?.data?.message || "Login failed");
     }
   };
 
