@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const Api = axios.create({
-  // baseURL: "https://schooldashboard-9zi1.onrender.com/db",
-  baseURL: "http://localhost:5000/db",
+  baseURL: "https://schooldashboard-jjt8.onrender.com/db",
 });
 
 // Attach token if available
