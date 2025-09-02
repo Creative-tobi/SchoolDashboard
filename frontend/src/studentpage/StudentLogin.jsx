@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Api from "../components/Api"
+import Api from "../components/Api";
 
 const StudentLogin = () => {
   const [data, setData] = useState({ email: "", password: "" });
@@ -16,8 +16,8 @@ const StudentLogin = () => {
       console.log("Student login:", res.data);
 
       if (res.data.token) localStorage.setItem("token", res.data.token);
-      if (res.data.user?._id)
-        localStorage.setItem("studentId", res.data.user._id);
+      if (res.data.stud?.id)
+        localStorage.setItem("studentId", res.data.stud.id);
 
       alert("Student login successful!");
       navigate("/student/dashboard");

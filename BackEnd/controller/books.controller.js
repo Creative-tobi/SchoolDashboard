@@ -7,12 +7,13 @@ async function addBooks(req, res){
     try {
         const {userID, bookname, author, description} = req.body;
         const student = await Student.findById(userID);
+        console.log(userID);
+        
          if(!student){
             return res.status(404).send({message: "Student not found"});
          }
 
          const newBooks = await Books.create({
-            userID,
             author,
             description,
             bookname
