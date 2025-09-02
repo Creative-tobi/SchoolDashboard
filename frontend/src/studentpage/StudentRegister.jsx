@@ -9,6 +9,7 @@ const StudentRegister = () => {
     password: "",
     faculty: "",
     course: "",
+    level: "",
     semester: "",
   });
   const navigate = useNavigate();
@@ -76,6 +77,14 @@ const StudentRegister = () => {
           name="faculty"
           placeholder="Faculty"
           value={data.faculty}
+          onChange={handleChange}
+          className="w-full p-2 border rounded"
+        />
+        <input
+          type="text"
+          name="level"
+          placeholder="Level"
+          value={data.level}
           onChange={handleChange}
           className="w-full p-2 border rounded"
         />

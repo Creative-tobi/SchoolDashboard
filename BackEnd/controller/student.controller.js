@@ -30,10 +30,11 @@ async function createStudent(req, res) {
     });
 
     await newStudent.save();
-    res.status(201).send({ message: "New Student registered", newStudent });
 
     const studentResponse = { ...newStudent.toObject() };
     delete studentResponse.password;
+    res.status(201).send({ message: "New Student registered", studentResponse });
+
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "Internal server error" });
@@ -49,28 +50,28 @@ async function studentLogin(req, res) {
       return res.status(400).send({ message: "Email and password not found" });
     }
 
-    const study = await Student.findOne({ email });
-    if (!study) {
+    const stud = await Student.findOne({ email });
+    if (!stud) {
       return res.status(400).send({ message: "Student not found" });
     }
 
-    const isValidPassword = await bcrypt.compare(password, study.password);
+    const isValidPassword = await bcrypt.compare(password, stud.password);
     if (!isValidPassword) {
       return res.status(400).send({ message: "Invalid password" });
     }
 
     const token = jwt.sign(
-      { id: study._id, role: "student" },
+      { id: stud._id, role: "student" },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
     res.status(201).send({
       message: "Student login succesfully",
       token,
-      study: {
-        id: study._id,
-        name: study.name,
-        email: study.email,
+      stud: {
+        id: stud._id,
+        name: stud.name,
+        email: stud.email,
       },
     });
   } catch (error) {
@@ -82,13 +83,13 @@ async function studentLogin(req, res) {
 //student profile
 async function studentProfile(req, res) {
   try {
-    const studentID = req.params.id;
-    const study = await Student.findById(studentID).select("-password");
+    const studentID = req.user.id;
+    const stud = await Student.findById(studentID).select("-password");
 
-    if (!study) {
+    if (!stud) {
       return res.status(404).send({ message: "Student not found" });
     }
-    res.status(201).send({ message: "Student profile", study });
+    res.status(201).send({ message: "Student profile", stud });
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "Internal server error" });

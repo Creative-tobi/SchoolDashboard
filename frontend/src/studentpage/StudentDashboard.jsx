@@ -17,7 +17,7 @@ const StudentDashboard = () => {
 
         // Fetch student profile
         const { data } = await Api.get(`/students/profile/${studentId}`);
-        setStudent(data.study);
+        setStudent(data.stud);
 
         // Fetch all books and filter by studentId
         const booksRes = await Api.get(`/books/allbooks`);
@@ -92,6 +92,9 @@ const StudentDashboard = () => {
               <h3 className="text-lg font-semibold mb-4">Academic Details</h3>
               <p>
                 <b>Course:</b> {student.course || "N/A"}
+              </p>
+              <p>
+                <b>Level:</b> {student.level || "N/A"}
               </p>
               <p>
                 <b>Semester:</b> {student.semester || "N/A"}

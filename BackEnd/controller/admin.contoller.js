@@ -94,7 +94,7 @@ async function adminLogin(req, res) {
 //Admin Profile
 async function adminProfile(req, res) {
   try {
-    const adminID = req.params.id;
+    const adminID = req.user.id;
     const admin = await Admin.findById(adminID).select("-password");
 
     if (!admin) {
@@ -107,7 +107,7 @@ async function adminProfile(req, res) {
   }
 }
 
-// Extra Features
+// get students
 async function getStudents(req, res) {
   try {
     const allStudents = await Student.find().select("-password");
@@ -120,6 +120,7 @@ async function getStudents(req, res) {
   }
 }
 
+//delete students
 async function deleteStudent(req, res) {
   try {
     const deleted = await Student.findByIdAndDelete(req.params.id);
@@ -133,6 +134,7 @@ async function deleteStudent(req, res) {
   }
 }
 
+//get books
 async function getBooks(req, res) {
   try {
     const allBooks = await Books.find();
@@ -143,6 +145,7 @@ async function getBooks(req, res) {
   }
 }
 
+//delete books
 async function deleteBooks(req, res) {
   try {
     const deleted = await Books.findByIdAndDelete(req.params.id);
