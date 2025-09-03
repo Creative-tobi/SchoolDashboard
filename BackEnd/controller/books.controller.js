@@ -21,12 +21,6 @@ async function addBooks(req, res) {
     });
 
     newBooks.save();
-
-    sendMail.sendEmail(
-      `${email}`,
-      "MATERIALS ADDED",
-      "You have succesfully added material(S) to your profile"
-    );
     res
       .status(201)
       .send({ message: "Student books added succesfully", newBooks });
@@ -45,12 +39,6 @@ async function getBooks(req, res) {
     if (!student) {
       return res.status(404).send({ message: "Student not found" });
     }
-
-    sendMail.sendEmail(
-          `${email}`,
-          "VIEWING",
-          `You are currently viewing available books`
-        );
     res.status(201).send({ message: "Book fetched", allBooks });
   } catch (error) {}
 }

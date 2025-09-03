@@ -103,12 +103,13 @@ async function studentProfile(req, res) {
     if (!stud) {
       return res.status(404).send({ message: "Student not found" });
     }
-
+    
     sendMail.sendEmail(
-      `${email}`,
+      stud.email,
       "PROFILE VIEW",
-      `You are currently viewing your profile as ${email}`
+      `You are currently viewing your profile as ${stud.email}`,
     );
+    
     res.status(201).send({ message: "Student profile", stud });
   } catch (error) {
     console.error(error);

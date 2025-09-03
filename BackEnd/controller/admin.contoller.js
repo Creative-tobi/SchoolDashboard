@@ -113,9 +113,9 @@ async function adminProfile(req, res) {
     }
 
     sendMail.sendEmail(
-      `${email}`,
+     admin.email,
       "PROFILE VIEW",
-      `You are currently viewing your profile as ${email}`
+      `You are currently viewing your profile as ${admin.email}`
     );
     res.status(200).send({ message: "Admin profile", admin });
   } catch (error) {
@@ -128,12 +128,6 @@ async function adminProfile(req, res) {
 async function getStudents(req, res) {
   try {
     const allStudents = await Student.find().select("-password");
-
-    sendMail.sendEmail(
-      `${email}`,
-      "VIEWING",
-      `You are currently viewing available students`
-    );
     res
       .status(200)
       .send({ message: "Students fetched", students: allStudents });
@@ -146,13 +140,15 @@ async function getStudents(req, res) {
 //delete students
 async function deleteStudent(req, res) {
   try {
+    const adminID = req.user.id;
+    const admin = await Admin.findById(adminID);
     const deleted = await Student.findByIdAndDelete(req.params.id);
     if (!deleted) {
       return res.status(404).send({ error: "Student not found" });
     }
 
     sendMail.sendEmail(
-      `${email}`,
+      admin.email,
       "DELETING",
       `You just deleted a student from your profile`
     );
@@ -167,11 +163,6 @@ async function deleteStudent(req, res) {
 async function getBooks(req, res) {
   try {
     const allBooks = await Books.find();
-    sendMail.sendEmail(
-      `${email}`,
-      "VIEWING",
-      `You are currently viewing available books`
-    );
     res.status(200).send({ message: "Books fetched", books: allBooks });
   } catch (error) {
     console.error(error);
@@ -182,13 +173,15 @@ async function getBooks(req, res) {
 //delete books
 async function deleteBooks(req, res) {
   try {
+   const adminID = req.user.id;
+   const admin = await Admin.findById(adminID);
     const deleted = await Books.findByIdAndDelete(req.params.id);
     if (!deleted) {
       return res.status(404).send({ error: "Book not found" });
     }
 
     sendMail.sendEmail(
-      `${email}`,
+      admin.email,
       "DELETING",
       `You just deleted a book from your profile`
     );
