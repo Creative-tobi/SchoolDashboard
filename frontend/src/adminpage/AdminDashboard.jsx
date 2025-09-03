@@ -113,7 +113,7 @@ const AdminDashboard = () => {
                     key={s._id}
                     className="flex justify-between items-center border p-2 rounded">
                     <span>
-                      {s.name} - {s.email}
+                     <strong>{s.name}</strong> - {s.email}
                     </span>
                     <button
                       onClick={() => handleDeleteStudent(s._id)}
@@ -138,7 +138,7 @@ const AdminDashboard = () => {
                     key={b._id}
                     className="flex justify-between items-center border p-2 rounded">
                     <span>
-                      {b.bookname} - {b.author}
+                      <strong>{b.bookname}</strong>- {b.author}
                     </span>
                     <button
                       onClick={() => handleDeleteBook(b._id)}
