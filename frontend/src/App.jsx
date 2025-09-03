@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import StudentRegister from './studentpage/StudentRegister'
 import StudentLogin from './studentpage/StudentLogin'
 import StudentDashboard from './studentpage/StudentDashboard'

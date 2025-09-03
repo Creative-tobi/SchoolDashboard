@@ -74,7 +74,7 @@ const StudentDashboard = () => {
 
       const { data } = await Api.post(`/books/materials`, {
         ...newBook,
-        userID: studentId, // Make sure this matches what your backend expects
+        userID: studentId,
       });
 
       console.log("Add book response:", data);

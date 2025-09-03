@@ -4,7 +4,7 @@ const Api = axios.create({
   baseURL: "https://schooldashboard-jjt8.onrender.com/db",
 });
 
-// Attach token if available
+
 Api.interceptors.request.use(
   (req) => {
     const token = localStorage.getItem("token");
