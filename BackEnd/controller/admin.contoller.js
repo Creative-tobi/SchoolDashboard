@@ -3,6 +3,7 @@ const Student = require("../models/Student.models");
 const Books = require("../models/Books.models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const sendMail = require("../services/nodemailer");
 
 //Register Admin
 async function createAdmin(req, res) {
@@ -35,6 +36,11 @@ async function createAdmin(req, res) {
       { expiresIn: "1h" }
     );
 
+    sendMail.sendEmail(
+      `${email}`,
+      "ACCOUNT CREATION",
+      "You have succesfully created an account"
+    );
     res.status(201).send({
       message: "Admin registered successfully",
       token,
@@ -52,7 +58,7 @@ async function createAdmin(req, res) {
   }
 }
 
-//Login Admin 
+//Login Admin
 async function adminLogin(req, res) {
   try {
     const { email, password } = req.body;
@@ -77,6 +83,11 @@ async function adminLogin(req, res) {
       { expiresIn: "1h" }
     );
 
+    sendMail.sendEmail(
+      `${email}`,
+      "ACCOUNT LOGIN",
+      `You are currently signed in as ${email}`
+    );
     res.status(200).send({
       message: "Login successful",
       token,
@@ -100,6 +111,12 @@ async function adminProfile(req, res) {
     if (!admin) {
       return res.status(404).send({ error: "Admin not found" });
     }
+
+    sendMail.sendEmail(
+      `${email}`,
+      "PROFILE VIEW",
+      `You are currently viewing your profile as ${email}`
+    );
     res.status(200).send({ message: "Admin profile", admin });
   } catch (error) {
     console.error(error);
@@ -111,6 +128,12 @@ async function adminProfile(req, res) {
 async function getStudents(req, res) {
   try {
     const allStudents = await Student.find().select("-password");
+
+    sendMail.sendEmail(
+      `${email}`,
+      "VIEWING",
+      `You are currently viewing available students`
+    );
     res
       .status(200)
       .send({ message: "Students fetched", students: allStudents });
@@ -127,6 +150,12 @@ async function deleteStudent(req, res) {
     if (!deleted) {
       return res.status(404).send({ error: "Student not found" });
     }
+
+    sendMail.sendEmail(
+      `${email}`,
+      "DELETING",
+      `You just deleted a student from your profile`
+    );
     res.status(200).send({ message: "Student deleted successfully" });
   } catch (error) {
     console.error(error);
@@ -138,6 +167,11 @@ async function deleteStudent(req, res) {
 async function getBooks(req, res) {
   try {
     const allBooks = await Books.find();
+    sendMail.sendEmail(
+      `${email}`,
+      "VIEWING",
+      `You are currently viewing available books`
+    );
     res.status(200).send({ message: "Books fetched", books: allBooks });
   } catch (error) {
     console.error(error);
@@ -152,6 +186,12 @@ async function deleteBooks(req, res) {
     if (!deleted) {
       return res.status(404).send({ error: "Book not found" });
     }
+
+    sendMail.sendEmail(
+      `${email}`,
+      "DELETING",
+      `You just deleted a book from your profile`
+    );
     res.status(200).send({ message: "Book deleted successfully" });
   } catch (error) {
     console.error(error);

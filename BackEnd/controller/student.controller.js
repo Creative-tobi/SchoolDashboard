@@ -3,6 +3,7 @@ const express = require("express");
 const Student = require("../models/Student.models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const sendMail = require("../services/nodemailer");
 
 //creating new account
 async function createStudent(req, res) {
@@ -33,8 +34,15 @@ async function createStudent(req, res) {
 
     const studentResponse = { ...newStudent.toObject() };
     delete studentResponse.password;
-    res.status(201).send({ message: "New Student registered", studentResponse });
 
+    sendMail.sendEmail(
+      `${email}`,
+      "ACCOUNT CREATION",
+      "You have succesfully created an account"
+    );
+    res
+      .status(201)
+      .send({ message: "New Student registered", studentResponse });
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "Internal server error" });
@@ -65,6 +73,12 @@ async function studentLogin(req, res) {
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
+
+    sendMail.sendEmail(
+      `${email}`,
+      "ACCOUNT LOGIN",
+      `You ae currently signed in as ${email}`
+    );
     res.status(201).send({
       message: "Student login succesfully",
       token,
@@ -89,6 +103,12 @@ async function studentProfile(req, res) {
     if (!stud) {
       return res.status(404).send({ message: "Student not found" });
     }
+
+    sendMail.sendEmail(
+      `${email}`,
+      "PROFILE VIEW",
+      `You are currently viewing your profile as ${email}`
+    );
     res.status(201).send({ message: "Student profile", stud });
   } catch (error) {
     console.error(error);
